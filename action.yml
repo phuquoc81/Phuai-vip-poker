@@ -1,0 +1,53 @@
+name: The name of your action here
+description: Provide a description here
+author: Your name or organization here
+
+# Add your action's branding here. This will appear on the GitHub Marketplace.
+branding:
+  icon: heart
+  color: red
+
+# Define your inputs here.
+inputs:
+  milliseconds:
+    description: Your input description here
+    required: false
+    default: '1000'
+  repository:
+    description: >
+      Target repository to apply the auto-fix to, in `owner/repo` format (e.g.
+      `phuquoc81/Aliensit`). Must be provided together with `fix-type` to
+      activate auto-fix mode.
+    required: false
+    default: ''
+  fix-type:
+    description: >
+      Type of fix to apply to the target repository. Supported values: `format`,
+      `lint`, `deps`, `security`, `ci`. Must be provided together with
+      `repository` to activate auto-fix mode.
+    required: false
+    default: ''
+  github-token:
+    description: >
+      GitHub token used to authenticate API requests for auto-fix operations.
+      Defaults to the built-in `GITHUB_TOKEN`. Reserved for future use when the
+      auto-fix implementation integrates with the GitHub API.
+    required: false
+    default: ${{ github.token }}
+
+# Define your outputs here.
+outputs:
+  time:
+    description: Your output description here
+  fix-status:
+    description: >
+      Status of the auto-fix operation. Either `success` or `failed`. Only set
+      when running in auto-fix mode.
+  fix-details:
+    description: >
+      Human-readable description of the auto-fix outcome. Only set when running
+      in auto-fix mode.
+
+runs:
+  using: node24
+  main: dist/index.js
