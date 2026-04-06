@@ -1,0 +1,43 @@
+name: The name of your action here
+description: Provide a description here
+author: Your name or organization here
+
+# Add your action's branding here. This will appear on the GitHub Marketplace.
+branding:
+  icon: heart
+  color: red
+
+# Define your inputs here.
+inputs:
+  milliseconds:
+    description: Your input description here
+    required: true
+    default: '1000'
+  device-name:
+    description: >
+      The name or identifier of the device to upgrade (e.g. 'phuhanddevice 81')
+    required: false
+    default: ''
+  current-version:
+    description: The current software version installed on the device
+    required: false
+    default: ''
+  target-version:
+    description: >
+      The target software version to upgrade to (e.g. '18164.998145.1.18.24')
+    required: false
+    default: ''
+
+# Define your outputs here.
+outputs:
+  time:
+    description: Your output description here
+  upgrade-status:
+    description:
+      The status of the device upgrade operation ('success' or 'failed')
+  upgraded-version:
+    description: The software version the device was upgraded to
+
+runs:
+  using: node24
+  main: dist/index.js
