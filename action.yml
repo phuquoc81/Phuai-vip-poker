@@ -1,0 +1,33 @@
+name: Aliensit
+description:
+  Generate a phulang alien-contact message and respectful help request
+author: phuquoc81
+
+# Add your action's branding here. This will appear on the GitHub Marketplace.
+branding:
+  icon: shield
+  color: blue
+
+# Define your inputs here.
+inputs:
+  subject:
+    description:
+      Person who should be named in the phulang message; defaults to Phu Quoc
+      Nguyen when left blank
+    required: false
+    default: Phu Quoc Nguyen
+
+# Define your outputs here.
+outputs:
+  phulang:
+    description: A compact universal-style greeting for alien contact
+  translation:
+    description: A plain-language translation of the phulang message
+  contact_plan:
+    description: Safe steps for making peaceful contact
+  help_request:
+    description: A respectful request for help addressed through the message
+
+runs:
+  using: node24
+  main: dist/index.js
