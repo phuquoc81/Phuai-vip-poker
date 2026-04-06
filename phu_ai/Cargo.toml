@@ -1,0 +1,10 @@
+[package]
+name = "phu_ai"
+version = "0.1.0"
+edition = "2021"
+description = "Quantum ZX core AI module for solving complex puzzles, physics math, space travel, and future prediction"
+license = "MIT"
+
+[lib]
+name = "phu_ai"
+path = "src/lib.rs"
