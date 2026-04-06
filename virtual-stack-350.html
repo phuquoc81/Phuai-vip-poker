@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Virtual Stack — 350 Nested Layers</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        background: #0d0d0d;
+        color: #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 1rem 4rem;
+        min-height: 100vh;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+        margin-bottom: 0.4rem;
+        letter-spacing: 0.04em;
+      }
+
+      p.subtitle {
+        font-size: 0.85rem;
+        color: #888;
+        margin-bottom: 2rem;
+      }
+
+      /* Root wrapper that holds the outermost layer */
+      #stack-root {
+        width: 100%;
+        max-width: 820px;
+      }
+
+      /* Every generated layer shares this base style */
+      .v-layer {
+        position: relative;
+        border-radius: 8px;
+        border: 1.5px solid rgba(255, 255, 255, 0.12);
+        padding: 28px 16px 12px;
+        /* Horizontal inset grows with depth to create the nested cascade */
+        margin: 0 auto;
+      }
+
+      /* Layer number badge pinned to the top-left corner */
+      .v-layer-label {
+        position: absolute;
+        top: 6px;
+        left: 10px;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        opacity: 0.75;
+        pointer-events: none;
+        white-space: nowrap;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Virtual Stack — 350 Nested Layers</h1>
+    <p class="subtitle">
+      Each box represents one virtualized application layer nested inside the
+      previous one.
+    </p>
+
+    <div id="stack-root"></div>
+
+    <script>
+      ;(function () {
+        const LAYER_COUNT = 350
+
+        /**
+         * Map a layer index (0-based) to an HSL colour so every layer gets a
+         * visually distinct background that cycles smoothly through the
+         * spectrum.
+         *
+         * @param {number} index - Zero-based layer index.
+         * @returns {{ bg: string, text: string }}
+         */
+        function layerColour(index) {
+          // Full hue rotation across all 350 layers
+          const hue = Math.round((index / LAYER_COUNT) * 360)
+          // Alternate between slightly lighter / darker bands every 10 layers
+          const lightnessBase = index % 20 < 10 ? 14 : 11
+          const bg = `hsl(${hue}, 55%, ${lightnessBase}%)`
+          const text = `hsl(${hue}, 90%, 72%)`
+          return { bg, text }
+        }
+
+        /**
+         * Build the complete nested DOM tree for all 350 layers and attach it
+         * to the provided root element.
+         *
+         * Layers are constructed inside-out (deepest first) so that each
+         * child can be appended to its parent in a single pass without
+         * recursion, avoiding potential stack-overflow issues at this depth.
+         *
+         * @param {HTMLElement} root
+         */
+        function buildStack(root) {
+          // Fractional pixel step added per depth level; innermost layers
+          // have the largest accumulated indent on each side.
+          const INDENT_STEP = 1.2
+
+          // Build from innermost (layer 350) to outermost (layer 1).
+          let innerEl = null
+
+          for (let i = LAYER_COUNT; i >= 1; i--) {
+            const { bg, text } = layerColour(i - 1)
+
+            const layer = document.createElement('div')
+            layer.className = 'v-layer'
+            layer.dataset.layer = String(i)
+
+            const indentEach = (LAYER_COUNT - i) * INDENT_STEP
+            layer.style.backgroundColor = bg
+            layer.style.marginLeft = `${indentEach}px`
+            layer.style.marginRight = `${indentEach}px`
+
+            const label = document.createElement('span')
+            label.className = 'v-layer-label'
+            label.style.color = text
+            label.textContent = `Layer ${i}`
+
+            layer.appendChild(label)
+
+            if (innerEl !== null) {
+              layer.appendChild(innerEl)
+            }
+
+            innerEl = layer
+          }
+
+          if (innerEl !== null) {
+            root.appendChild(innerEl)
+          }
+        }
+
+        buildStack(document.getElementById('stack-root'))
+      })()
+    </script>
+  </body>
+</html>
