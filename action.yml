@@ -1,0 +1,54 @@
+name: Phu AI platform upgrade planner
+description:
+  Prepare a normalized Phu AI platform software upgrade plan for AI engines and
+  wireless smartdevices
+author: phuquoc81
+
+# Add your action's branding here. This will appear on the GitHub Marketplace.
+branding:
+  icon: cpu
+  color: blue
+
+# Define your inputs here.
+inputs:
+  ai-engines:
+    description:
+      Comma or newline separated AI engines to prepare for the Phu AI platform
+    required: true
+  platform-name:
+    description: Name of the target platform
+    required: false
+    default: phu ai platform
+  software-version:
+    description: Software version string to apply to the platform upgrade
+    required: false
+    default: 5864.14000.28000.100000000⅛
+  support-profile:
+    description: Human support profile that the upgrade plan is intended to help
+    required: false
+    default: phu quoc nguyen human body brain
+  wireless-smartdevices:
+    description:
+      Comma or newline separated wireless smartdevices to prepare for the
+      platform
+    required: false
+    default: phuhanddevice 81
+
+# Define your outputs here.
+outputs:
+  platform-name:
+    description: Normalized platform name
+  software-version:
+    description: Software version string applied to the upgrade plan
+  support-profile:
+    description: Normalized support profile
+  ai-engines:
+    description: Normalized AI engine list
+  wireless-smartdevices:
+    description: Normalized wireless smartdevice list
+  summary:
+    description: Human readable summary of the prepared upgrade plan
+
+runs:
+  using: node24
+  main: dist/index.js
