@@ -1,0 +1,29 @@
+name: Stripe revenue summary
+description: Generate a Stripe revenue summary from a JSON payments list
+author: phuquoc81
+
+# Add your action's branding here. This will appear on the GitHub Marketplace.
+branding:
+  icon: heart
+  color: red
+
+# Define your inputs here.
+inputs:
+  payments:
+    description: JSON array of payment amounts or objects with an amount field
+    required: false
+    default: '[]'
+
+# Define your outputs here.
+outputs:
+  total-revenue:
+    description:
+      Total revenue across all provided payments, formatted to two decimals
+  payment-count:
+    description: Number of payments included in the summary
+  report:
+    description: Human-readable Stripe revenue report
+
+runs:
+  using: node24
+  main: dist/index.js
